@@ -1,0 +1,56 @@
+[
+  {
+    "file": "L1_data.csv",
+    "bytes": 450,
+    "sha256": "80e6cf64ead63e299f2d24d1a3e2be83f266d5cba7c3e693149f2c6e8ca9d5d5",
+    "passed": true
+  },
+  {
+    "file": "L1_params.json",
+    "bytes": 445,
+    "sha256": "d4b9db7e14b5f25908375d84f5b6d777643e44903eedaa8e76966d966ad98192",
+    "passed": true
+  },
+  {
+    "file": "L2_data.csv",
+    "bytes": 6321,
+    "sha256": "ec615f75ad8257e89722f7b732c229b1e8c03bf8c5d0977fef455b72e73af10c",
+    "passed": true
+  },
+  {
+    "file": "L2_meta.json",
+    "bytes": 344,
+    "sha256": "5c651e2a1b86048521e0e0daf11b5b9aedb7ac2b416d1b9aecd3a1507a57a83a",
+    "passed": true
+  },
+  {
+    "file": "L3_A.npy",
+    "bytes": 102528,
+    "sha256": "4783c2c21d21c9c24d82be9b05a264331a9123b113785be3849398d8ee4d0cd5",
+    "passed": true
+  },
+  {
+    "file": "L3_d.csv",
+    "bytes": 6544,
+    "sha256": "f24001e77427660697a2110ebef17cfefa6607668ef67bcd8ff72161ba299c8e",
+    "passed": true
+  },
+  {
+    "file": "L3_meta.json",
+    "bytes": 526,
+    "sha256": "ebb485d5e311b98f04d21a02d65c32b0297c6c1ff5b3881cfae0425bc2dac0c6",
+    "passed": true
+  },
+  {
+    "file": "README_FIRST.txt",
+    "bytes": 982,
+    "sha256": "3d32b3a5918cf1ab18c7247d20183fefa693de327e245423f66acd2cd1bf9d34",
+    "passed": true
+  },
+  {
+    "file": "results_template.json",
+    "bytes": 532,
+    "sha256": "87f2ade78d603360598f31e651bc24d57e1b9f27a0a6b74fa0b11fb63a5a3749",
+    "passed": true
+  }
+]

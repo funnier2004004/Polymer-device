@@ -1,0 +1,40 @@
+G05 L1 checkpoint: finite-temperature carrier-count correction
+
+Method. Following Practical Methods Guide pp. 3-5, integrate N_A*c*E*f(E;EF,T)
+from 0 to 2.5 eV for n_band and from EF to 2.5 eV for n_Fermi, with 20,001
+points and trapezoidal integration. T = 300 K. Use supplied n_band values
+for sweep markers; recompute both integrals at the exact operating EF.
+
+Results. At EF = 0.08536431378166 eV and rho = 447.3107894762 ohm/sq:
+n_band = 6.803110488e+11 cm^-2; n_Fermi = 2.997978121e+11 cm^-2;
+C = 2.269232868; mu_band = 20510.332840 cm^2/(V s);
+mu_corrected = 46542.721408 cm^2/(V s).
+C = 2 at EF = 0.072761890 eV; C = 4 at 0.157346907 eV.
+
+Interpretation. As positive doping grows, n_band includes more occupied states
+below EF, whereas the Fermi-referenced count retains states above EF. At high
+positive EF the former grows approximately quadratically and the latter
+linearly, so their ratio increases. At fixed measured sheet resistance,
+mu = 1/(e*n*rho), so mu_corrected/mu_band = C. This is a model-dependent
+extracted mobility, not evidence that the sample's scattering changed.
+
+Quantified advice. Under an inverse-carrier-density sensitivity model with all
+other factors fixed, use 2.26923 times the band-count sensitivity estimate
+(a 126.92% increase relative to that estimate). This is conditional
+device advice, not an independently measured sensor response.
+
+Checks and limits. Neutrality and the three rounded positive-EF gates pass.
+The numerical Fermi count agrees with the supplied closed form, and doubling
+the integration resolution passes a 5e-6 relative tolerance. These are numerical
+checks, not experimental confidence intervals. L1 supplies no measurement
+uncertainties for T, c or rho, so no experimental uncertainty is invented.
+The closed expression assumes an infinite upper limit; at this group's 300 K
+operating range its thermal tail beyond 2.5 eV is negligible at our tolerance.
+
+Figure. Open circles use the 12 supplied band-count values; the solid curve
+recalculates both counts. The star is the exact operating point; squares mark
+C=2 and C=4 crossings. This is a deterministic model sweep, not replicate data.
+
+Reproduction: python reproduce.py --data-dir data/regular_G05 --phase L1
+Pipeline commit: 3fe0c57adc945a9d87e9274f60ce0c9938167141
+L2 and L3 fields are intentionally unfilled in this L1 checkpoint.

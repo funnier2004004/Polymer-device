@@ -1,0 +1,58 @@
+Phase: L1
+Group: G05
+Commit: 3fe0c57adc945a9d87e9274f60ce0c9938167141
+Command: "D:\桌面\polymer device\G05_coursework\.venv\Scripts\python.exe" reproduce.py --data-dir data/regular_G05 --phase L1
+Input integrity: 9 files passed
+PASS published_gate_EF_0.0_300K: observed=1; error=0; tolerance=1e-12
+PASS published_gate_EF_0.073_300K: observed=2.00493969136; error=0.00494; tolerance=0.01
+PASS published_gate_EF_0.1_300K: observed=2.59884516115; error=0.001155; tolerance=0.01
+PASS published_gate_EF_0.2_300K: observed=5.10437357187; error=0.004374; tolerance=0.01
+PASS CSV_band_count_0.03: observed=195275187260; error=1.6e-12; tolerance=1e-05
+PASS closed_count_0.03: observed=156759377269; error=2.454e-07; tolerance=5e-06
+PASS sheet_resistance_0.03: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.05: observed=325271978044; error=1.642e-13; tolerance=1e-05
+PASS closed_count_0.05: observed=208431087011; error=1.425e-08; tolerance=5e-06
+PASS sheet_resistance_0.05: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.07: observed=505420987205; error=6.313e-13; tolerance=1e-05
+PASS closed_count_0.07: observed=260102795615; error=1.207e-07; tolerance=5e-06
+PASS sheet_resistance_0.07: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.09: observed=739487789454; error=6.56e-13; tolerance=1e-05
+PASS closed_count_0.09: observed=311774503093; error=2.072e-07; tolerance=5e-06
+PASS sheet_resistance_0.09: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.11: observed=1.02942563684e+12; error=3.754e-12; tolerance=1e-05
+PASS closed_count_0.11: observed=363446209460; error=2.661e-07; tolerance=5e-06
+PASS sheet_resistance_0.11: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.13: observed=1.3761888931e+12; error=2.146e-12; tolerance=1e-05
+PASS closed_count_0.13: observed=415117914730; error=3.077e-07; tolerance=5e-06
+PASS sheet_resistance_0.13: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.15: observed=1.78023001935e+12; error=2.171e-12; tolerance=1e-05
+PASS closed_count_0.15: observed=466789618917; error=3.378e-07; tolerance=5e-06
+PASS sheet_resistance_0.15: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.17: observed=2.2417604336e+12; error=1.292e-12; tolerance=1e-05
+PASS closed_count_0.17: observed=518461322034; error=3.598e-07; tolerance=5e-06
+PASS sheet_resistance_0.17: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.19: observed=2.76087825018e+12; error=1.981e-14; tolerance=1e-05
+PASS closed_count_0.19: observed=570133024096; error=3.76e-07; tolerance=5e-06
+PASS sheet_resistance_0.19: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.21: observed=3.33762885687e+12; error=1.166e-12; tolerance=1e-05
+PASS closed_count_0.21: observed=621804725117; error=3.878e-07; tolerance=5e-06
+PASS sheet_resistance_0.21: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.23: observed=3.97203321912e+12; error=8.048e-13; tolerance=1e-05
+PASS closed_count_0.23: observed=673476425110; error=3.963e-07; tolerance=5e-06
+PASS sheet_resistance_0.23: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS CSV_band_count_0.25: observed=4.66410101468e+12; error=1.369e-13; tolerance=1e-05
+PASS closed_count_0.25: observed=725148124089; error=4.021e-07; tolerance=5e-06
+PASS sheet_resistance_0.25: observed=447.310789476; error=4.462e-13; tolerance=1e-10
+PASS strictly_increasing_supplied_sweep: observed=1; error=0; tolerance=0
+PASS operating_closed_form: observed=299797812081; error=1.902e-07; tolerance=5e-06
+PASS mobility_ratio: observed=2.26923286773; error=0; tolerance=1e-12
+PASS mobility_SI_crosscheck: observed=46542.7214077; error=0; tolerance=1e-12
+PASS DoS_slope_cancellation: observed=2.26923286773; error=0; tolerance=1e-12
+PASS operating_grid_refinement_band: observed=680311048847; error=1.996e-07; tolerance=5e-06
+PASS operating_grid_refinement_fermi: observed=299797812081; error=1.426e-07; tolerance=5e-06
+PASS operating_grid_refinement_factor: observed=2.26923286773; error=3.422e-07; tolerance=5e-06
+PASS crossing_2: observed=2; error=2.132e-14; tolerance=1e-10
+PASS crossing_4: observed=4; error=5.462e-14; tolerance=1e-10
+PASS dense_curve_monotonic: observed=1; error=0; tolerance=0
+L1 results: {"correction_factor": 2.269232867729486, "n_fermi_op_cm2": 299797812080.8491, "mobility_corrected_cm2_Vs": 46542.721407705576}
+Completed successfully

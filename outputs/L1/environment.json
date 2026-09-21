@@ -1,0 +1,24 @@
+{
+  "run_utc": "2026-09-21T04:00:19.346526+00:00",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "numpy": "2.3.5",
+  "matplotlib": "3.10.8",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "executable": "D:\\桌面\\polymer device\\G05_coursework\\.venv\\Scripts\\python.exe",
+  "data_dir": "D:\\桌面\\polymer device\\G05_coursework\\data\\regular_G05",
+  "command": [
+    "D:\\桌面\\polymer device\\G05_coursework\\.venv\\Scripts\\python.exe",
+    "reproduce.py",
+    "--data-dir",
+    "data/regular_G05",
+    "--phase",
+    "L1"
+  ],
+  "constants": {
+    "kB_eV_K": 8.617333e-05,
+    "NA_atoms_cm2": 3816000000000000.0,
+    "e_C": 1.602176634e-19,
+    "Emax_eV": 2.5,
+    "points": 20001
+  }
+}
