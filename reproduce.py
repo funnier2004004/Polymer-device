@@ -78,7 +78,7 @@ def make_figure(out, sweep, dense, op, crossings, group):
     x, y = op['EF_op_eV'], op['correction_factor']
     ax.scatter([x], [y], marker='*', s=120, color='#B25827', zorder=5)
     ax.annotate(f'Operating point\n{x:.7f} eV, C = {y:.5f}', (x, y),
-                xytext=(.115, 3.0), textcoords='data', fontsize=9, color='#8C431C',
+                xytext=(.020, 3.25), textcoords='data', fontsize=9, color='#8C431C',
                 arrowprops={'arrowstyle': '-', 'color': '#B25827', 'lw': .8})
     ax.set(xlabel=r'Fermi level, $E_F$ (eV)',
            ylabel=r'Correction factor, $C=n_{\mathrm{band}}/n_{\mathrm{Fermi}}$',
