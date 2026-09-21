@@ -8,6 +8,7 @@ import platform
 import subprocess
 import sys
 import zipfile
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
@@ -220,7 +221,7 @@ L2 and L3 fields are intentionally unfilled in this L1 checkpoint.
     (out/'brief_note.txt').write_text(note, encoding='utf-8')
     (out/'commit_hash.txt').write_text(commit+'\n', encoding='ascii')
     import matplotlib
-    environment = dict(python=sys.version, numpy=np.__version__, matplotlib=matplotlib.__version__,
+    environment = dict(run_utc=datetime.now(timezone.utc).isoformat(), python=sys.version, numpy=np.__version__, matplotlib=matplotlib.__version__,
                        platform=platform.platform(), executable=sys.executable,
                        data_dir=str(data_dir), command=[sys.executable,*sys.argv],
                        constants=dict(kB_eV_K=KB, NA_atoms_cm2=NA, e_C=E_CHARGE, Emax_eV=EMAX, points=POINTS))

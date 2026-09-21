@@ -4,7 +4,7 @@
 
 ## 运行
 
-使用 Python 3.10 或更新版本，在此目录执行：
+本项目验证环境为 Python 3.12，锁定的依赖需要 Python 3.11 或更新版本（课程最低要求为 3.10）。建议使用 Python 3.12，在此目录执行：
 
 ```text
 python -m pip install -r requirements.txt
@@ -42,5 +42,7 @@ python reproduce.py --data-dir data/regular_G05 --phase L1
 ```
 
 比较原目录与 clean checkout 的 results、数值 CSV、图和 checkpoint。环境路径与命令不同，因此 environment.json/run_log.txt 不要求逐字节相同。
+
+本项目提供 `python verify_reproduction.py` 自动完成本地 clean clone、两次测试/运行及 SHA-256 比较。证据保存在 `outputs/clean_reproduction.json` 和 `qa/`；同一 commit 的核验目录会保留，不会自动覆盖。
 
 此项目目前只有本地仓库，无远程仓库、无 QMplus 上传。课程要求的 marker 可访问链接需要后续建立。学生仍需理解并审核 AI 生成内容，补充真实个人贡献和签字。上传前对照 QMplus 最新通知。
