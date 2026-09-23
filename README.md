@@ -9,7 +9,7 @@
 ```text
 python -m pip install -r requirements.txt
 python -m unittest -v
-python reproduce.py --data-dir data/regular_G05 --phase L1
+python reproduce.py --data-dir data/regular_G05 --phase L1 --out qa/L1_recheck
 ```
 
 生成 checkpoint 前要求代码、数据、记录都已提交，工作区干净。脚本从 Git 读取真实 commit，不允许手填版本。安装环境和新生成目录由 .gitignore 排除；已被主动加入 Git 的 L1 归档继续保留。
@@ -53,7 +53,7 @@ git clone <本项目的本地路径或未来仓库地址> clean_G05
 cd clean_G05
 python -m pip install -r requirements.txt
 python -m unittest -v
-python reproduce.py --data-dir data/regular_G05 --phase L1
+python reproduce.py --data-dir data/regular_G05 --phase L1 --out qa/L1_recheck
 ```
 
 比较原目录与 clean checkout 的 results、数值 CSV、图和 checkpoint。环境路径与命令不同，因此 environment.json/run_log.txt 不要求逐字节相同。

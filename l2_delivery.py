@@ -41,9 +41,9 @@ def figures(out, indices, pairs, central, library, boot, brackets, group):
         ax.scatter(*central['xy'].T,s=19,facecolors='white',edgecolors='#235F7C',zorder=3,label='Mean measured pairs')
         ax.axvline(0,color='#CCCCCC',lw=.7,zorder=0)
         ax.set(xlabel=r'Normalized $R_H$',ylabel=r'Normalized $R_s$',xlim=(-1.08,1.08),ylim=(0,1.10))
-        ax.legend(fontsize=8,loc='lower center')
-        ax.text(.02,.98,f'Selected: {central["model"]}\nRMS cone = {central["residuals"][0]:.5f}\nRMS gap = {central["residuals"][central["best_gap"]]:.5f}',
-                transform=ax.transAxes,va='top',fontsize=8,
+        ax.legend(fontsize=8,loc='center',bbox_to_anchor=(.5,.44))
+        ax.text(.5,.72,f'Selected: {central["model"]}\nRMS cone = {central["residuals"][0]:.5f}\nRMS gap = {central["residuals"][central["best_gap"]]:.5f}',
+                transform=ax.transAxes,va='center',ha='center',fontsize=8,
                 bbox=dict(facecolor='white',alpha=.85,edgecolor='none',pad=2))
     def trajectory(ax):
         ax.fill_between(indices,low,high,color='#A8C7D4',alpha=.7,label='Bootstrap 16-84% interval')
@@ -234,6 +234,8 @@ Figures. A/B: three raw repeated series, means and +/-1 sample SD; Hall zero
 line and mean sign-change bracket. C: separately normalized paired means,
 cone and best hard-gap model, with the selected model and residuals identified.
 D: EF assigned to repeat means and pointwise bootstrap 16th-84th interval.
+Small model-curve kinks from the prescribed discrete integration masks are
+retained without smoothing; they are not claimed as new material features.
 Raw-channel axes use the supplied scale; physical units were not specified
 in the data metadata and are not invented. All source values are retained.
 
