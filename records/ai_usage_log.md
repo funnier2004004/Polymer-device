@@ -1,5 +1,7 @@
 # AI usage log
 
+L2 display extension (2026-09-23): user requested RH(EF) and Rs(EF) comparisons in addition to the existing joint-fit figures. Codex added selected-model curves, measured means at the shared inferred EF, scaled sample-SD bars, single-channel PNG/SVG exports, a six-panel summary and source CSV. No independent channel fit, model-selection change or new physics claim was introduced. Prior L2 output was archived before regeneration. Tests and archived-output comparisons verify unchanged inference; students' review remains pending.
+
 Tool: OpenAI Codex desktop. The session began with a prior model and later switched to GPT-6 as identified in the runtime context. The exact prior model and a more specific current model identifier were not supplied; do not infer them.
 
 | Session stage | User instruction / task summary | AI contribution | Verification and human status |

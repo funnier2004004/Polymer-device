@@ -24,6 +24,8 @@ Report finite grid resolution, edge assignments and boundary best gaps; flag a r
 
 ## Figure contract
 
+Display extension: retain the original A–D figures, add E: normalized RH versus EF and F: normalized Rs versus EF. Both use the same 51 joint-fit EF assignments and the selected model's full prescribed EF grid. Plot measured means without connecting or reordering them. Scale each vertical sample SD by the SAME mean-data channel normalization factor as the fitted observations. This conditional SD does not include uncertainty in the estimated normalization factor. Show EF uncertainty only in the existing trajectory panel D. Clearly label EF as inferred for measured points and state that this is not independent validation. Export a 3x2 six-panel summary (11.6 x 13.2 inches) plus 7.2 x 5.4 inch individual comparisons, PNG 220 dpi and editable SVG. Source CSV includes shared EF, observed normalized means/SD and predicted values at the assigned model point.
+
 Python/Matplotlib only; quantitative four-panel evidence grid, 11.6 x 8.8 inches, 220 dpi PNG and editable-text SVG. A/B distinguish raw repeats and mean +/- sample SD; C compares both candidate families and identifies the selected model; D shows the central trajectory and resampling interval. Separate 7.2 x 5 inch model/trajectory exports support the required checkpoint. No assumed physical units on raw channels: metadata only supplies raw scales. Every plotted value is retained in model-library, paired-data, trajectory, and bootstrap CSVs.
 
 ## Validation and archival

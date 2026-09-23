@@ -87,6 +87,17 @@ class L2Tests(unittest.TestCase):
         expected = pairs[np.arange(len(pairs)),a['draws'][0]]
         np.testing.assert_array_equal(a['sampled_pairs'][0], expected)
 
+    def test_ef_display_uses_joint_fit_and_correct_sd(self):
+        from l2_delivery import ef_plot_data
+        curve=self.library['xy'][0,::40]
+        pairs=np.stack([curve*[1.01,1.02],curve,curve*[.99,.98]],axis=1)
+        central=fit(pairs.mean(axis=1),self.library)
+        data=ef_plot_data(np.arange(len(pairs)),pairs,central,self.library)
+        np.testing.assert_array_equal(data['ef'],central['trajectory'])
+        np.testing.assert_array_equal(data['xy'],central['xy'])
+        np.testing.assert_allclose(data['sd'],pairs.std(axis=1,ddof=1)/central['scales'])
+        np.testing.assert_array_equal(data['predicted'],self.library['xy'][central['selected'],central['assigned']])
+
 
 if __name__ == '__main__':
     unittest.main()

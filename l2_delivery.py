@@ -13,6 +13,13 @@ from l2 import load_pairs, normalize, transport, model_library, fit, bootstrap, 
 from reproduce import ROOT, git_info, verify_manifest, write_json, write_csv
 
 
+def ef_plot_data(indices, pairs, central, library):
+    """One shared inferred EF per measured pair; never fit either channel alone."""
+    return dict(indices=np.asarray(indices), ef=central['trajectory'], xy=central['xy'],
+                sd=pairs.std(axis=1,ddof=1)/central['scales'],
+                predicted=library['xy'][central['selected'],central['assigned']])
+
+
 def figures(out, indices, pairs, central, library, boot, brackets, group):
     import matplotlib
     matplotlib.use('Agg')
@@ -22,6 +29,7 @@ def figures(out, indices, pairs, central, library, boot, brackets, group):
                          'svg.fonttype':'none','svg.hashsalt':'QXU6028-L2','legend.frameon':False})
     mean,sd = pairs.mean(axis=1),pairs.std(axis=1,ddof=1)
     low,median,high = boot['trajectory_percentiles']
+    ef_data = ef_plot_data(indices,pairs,central,library)
     def raw(ax, channel):
         for r,colour in enumerate(('#A5B7C2','#BCC6AE','#D5B8A4')):
             ax.plot(indices,pairs[:,r,channel],'.-',ms=3,lw=.7,color=colour,label=f'Repeat {r+1}')
@@ -55,6 +63,19 @@ def figures(out, indices, pairs, central, library, boot, brackets, group):
         fig.savefig(out/f'{name}.png',dpi=220,metadata={'Software':'G05 L2 pipeline'})
         fig.savefig(out/f'{name}.svg',metadata={'Date':None})
         plt.close(fig)
+    def channel_vs_ef(ax, channel):
+        selected = central['selected']
+        symbol = r'$R_H$' if channel == 0 else r'$R_s$'
+        ax.plot(library['ef'],library['xy'][selected,:,channel],color='#AA582D',lw=1.7,
+                label=f'Selected {central["model"]} model')
+        ax.errorbar(ef_data['ef'],ef_data['xy'][:,channel],yerr=ef_data['sd'][:,channel],
+                    fmt='o',ms=3.5,mfc='white',mec='#255E78',ecolor='#255E78',
+                    elinewidth=.8,capsize=2,label='Measured mean +/- scaled sample SD',zorder=3)
+        ax.axvline(0,color='#BBBBBB',lw=.7,ls='--',zorder=0)
+        if channel == 0:
+            ax.axhline(0,color='#BBBBBB',lw=.7,zorder=0)
+        ax.set(xlabel=r'$E_F$ (eV; inferred for measured points)',ylabel='Normalized '+symbol)
+        ax.legend(fontsize=7.5,loc='best')
     fig,axes = plt.subplots(2,2,figsize=(11.6,8.8),layout='constrained')
     raw(axes[0,0],0); raw(axes[0,1],1); model(axes[1,0]); trajectory(axes[1,1])
     for ax,title in zip(axes.flat,['A  Hall channel and neutrality','B  Sheet-resistance channel',
@@ -67,6 +88,23 @@ def figures(out, indices, pairs, central, library, boot, brackets, group):
         fig,ax = plt.subplots(figsize=(7.2,5),layout='constrained')
         draw(ax); ax.set_title(f'{group} | {title}',pad=14)
         save(fig,name)
+    for channel,name in [(0,'L2_RH_vs_EF'),(1,'L2_Rs_vs_EF')]:
+        fig,ax=plt.subplots(figsize=(7.2,5.4),layout='constrained')
+        channel_vs_ef(ax,channel)
+        ax.set_title(f'{group} | '+('Hall coefficient' if channel==0 else 'Sheet resistance')+' versus Fermi level',pad=14)
+        fig.supxlabel('Measured-point EF is inferred jointly from RH and Rs; not an independent validation.',fontsize=8)
+        save(fig,name)
+    fig,axes=plt.subplots(3,2,figsize=(11.6,13.2),layout='constrained')
+    raw(axes[0,0],0); raw(axes[0,1],1); model(axes[1,0]); trajectory(axes[1,1])
+    channel_vs_ef(axes[2,0],0); channel_vs_ef(axes[2,1],1)
+    titles=['A  Hall channel and neutrality','B  Sheet-resistance channel',
+            'C  Joint model comparison','D  Fermi-level trajectory',
+            'E  Hall channel versus Fermi level','F  Sheet resistance versus Fermi level']
+    for ax,title in zip(axes.flat,titles):
+        ax.set_title(title,loc='left',fontweight='bold',fontsize=11,pad=14)
+    fig.suptitle(f'{group} | L2 joint fit and Fermi-level comparison',fontsize=15)
+    fig.supxlabel('E/F: shared inferred EF for measured pairs; scaled sample SD only; not independent validation.',fontsize=9)
+    save(fig,'L2_six_panel')
 
 
 def run_l2(args):
@@ -160,6 +198,13 @@ def run_l2(args):
                          nearest_model_index=int(central['assigned'][j]),distance=central['distances'][j],
                          EF_eV=central['trajectory'][j],EF_p16_eV=trajectory_q[0,j],EF_median_eV=trajectory_q[1,j],EF_p84_eV=trajectory_q[2,j]))
     write_csv(out/'L2_pairs_and_trajectory.csv',rows)
+    ef_data=ef_plot_data(indices,pairs,central,library)
+    write_csv(out/'L2_EF_comparison.csv',[
+        dict(measurement_index=int(i),EF_inferred_eV=ef_data['ef'][j],
+             RH_normalized=ef_data['xy'][j,0],Rs_normalized=ef_data['xy'][j,1],
+             RH_normalized_sample_SD=ef_data['sd'][j,0],Rs_normalized_sample_SD=ef_data['sd'][j,1],
+             RH_model_at_assigned_EF=ef_data['predicted'][j,0],
+             Rs_model_at_assigned_EF=ef_data['predicted'][j,1]) for j,i in enumerate(indices)])
     write_csv(out/'L2_residual_scan.csv',[dict(model='cone' if j==0 else 'hard_gap',Eg_kT=float(gap),
               rms=float(central['residuals'][j]),selected=j==selected) for j,gap in enumerate(library['gaps'])])
     curve_rows=[]
@@ -234,6 +279,14 @@ Figures. A/B: three raw repeated series, means and +/-1 sample SD; Hall zero
 line and mean sign-change bracket. C: separately normalized paired means,
 cone and best hard-gap model, with the selected model and residuals identified.
 D: EF assigned to repeat means and pointwise bootstrap 16th-84th interval.
+Additional E/F panels (also exported separately): normalized RH and Rs versus
+EF with the selected model curve and measured means at the SAME jointly
+inferred EF for each measurement pair. Vertical bars are sample SD divided
+by the corresponding fixed mean-data normalization scale, not confidence
+intervals and not uncertainty in that normalization factor. EF uncertainty
+is shown in panel D. The measured-point EF values are inferred, not independently
+measured; these panels explain the joint fit and are not independent validation.
+The four-panel original is retained alongside the expanded six-panel summary.
 Small model-curve kinks from the prescribed discrete integration masks are
 retained without smoothing; they are not claimed as new material features.
 Raw-channel axes use the supplied scale; physical units were not specified
@@ -251,6 +304,8 @@ must review the physics and record their own contributions before submission.
 本次按老师第 6–9 页的方法，从 RH/Rs 成对模拟测量反推材料模型。51 个测量序号各有 3 次重复。
 
 四幅图的读法：A 看霍尔系数变号和重复波动；B 看方块电阻变化；C 用两种归一化模型曲线同时解释两个通道；D 读取反推出的费米能级轨迹。
+
+新增 E/F 两幅图把选定模型的 RH(EF)、Rs(EF) 理论曲线分别与测量均值叠加。同一测量序号的两个通道使用完全相同的联合推断 EF，没有分别重新拟合。横轴上测量点的 EF 不是独立测得的，不能把吻合当成新的独立验证。纵向误差条为样本标准差除以对应的固定归一化尺度，不包含归一化因子本身的不确定性，也不是置信区间；EF 不确定性见 D 图。两张单图和六面板总图均已输出，原四面板图保留。数据表 L2_EF_comparison.csv 保存每个点的共同 EF、归一化均值、标准差与匹配模型预测值。
 
 平均 RH 变号区间：{brackets}。cone 残差 {rcone:.6f}，最佳 hard-gap 残差 {rgap:.6f}，改善 {improvement*100:.2f}%。按老师规则选择 **{central['model']}**，平均数据拟合得到 **Eg={central['gap_kT']:.2f} kBT={summary['Eg_eV']*1000:.3f} meV**。
 
@@ -277,7 +332,7 @@ L1 与 L2 沿用课程的费米窗口定义；L2 单独归一化消除了固定�
          f'Bootstrap={BOOTSTRAPS} seed={SEED}; hard_gap_fraction={boot["hard_gap_fraction"]}',
          *['LIMITATION: '+s for s in warnings],'Completed successfully']
     (out/'run_log.txt').write_text('\n'.join(log)+'\n',encoding='utf-8')
-    names=['results.json','brief_note.txt','commit_hash.txt']+[f'{stem}.{ext}' for stem in ('L2_model','L2_trajectory','L2_four_panel') for ext in ('png','svg')]
+    names=['results.json','brief_note.txt','commit_hash.txt','L2_EF_comparison.csv']+[f'{stem}.{ext}' for stem in ('L2_model','L2_trajectory','L2_four_panel','L2_RH_vs_EF','L2_Rs_vs_EF','L2_six_panel') for ext in ('png','svg')]
     archive=out/f'{meta["group"]}_L2_Checkpoint.zip'
     with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED) as bundle:
         for name in names:

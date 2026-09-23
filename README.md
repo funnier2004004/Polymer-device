@@ -20,6 +20,12 @@ python reproduce.py --data-dir data/regular_G05 --phase L1 --out qa/L1_recheck
 
 ## L2 运行及结果入口
 
+现已补充 RH–EF、Rs–EF 两张对照图和六面板总图。两通道使用同一个联合推断 EF；纵向误差条是按对应尺度归一化的样本标准差。横轴不是独立测量的 EF，因此新增图不构成独立验证。
+
+新增输出：`L2_RH_vs_EF.png/svg`、`L2_Rs_vs_EF.png/svg`、`L2_six_panel.png/svg` 和 `L2_EF_comparison.csv`，都在 `outputs/L2`，并收入更新后的 ZIP。原四面板仍保留。更新前的 L2 完整输出保存在 `outputs/archive/L2_6299ffe15dc8/L2`；原 L1 归档不变。
+
+本次展示修订的回归核验：`python verify_l2_display_revision.py`，使用本地保留的上一版 L2 输出，报告位于 `outputs/L2_display_revision_audit.json`。它不是 clean clone 运行所必需的输入；通用复现检查仍用 `verify_reproduction.py`。
+
 ```text
 python reproduce.py --data-dir data/regular_G05 --phase L2
 python verify_reproduction.py --phase L2
