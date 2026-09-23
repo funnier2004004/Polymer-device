@@ -8,6 +8,7 @@ Tool: OpenAI Codex desktop. The session began with a prior model and later switc
 | G05 preparation | Follow teacher's requirements and retain steps/data | Read G05 parameters/template; validate nine source hashes; plan evidence retention | Manifest check executed; group G05 confirmed by user |
 | L1 implementation | Implement approved G05 L1 plan | Generated Python functions, command-line runner, tests, documentation and English checkpoint note; selected tolerances and plot layout | Numerical/closed-form comparison, known gates, units, grid refinement and clean checkout checks are retained with outputs; student physics review pending |
 | Record keeping | Preserve important data and steps | Prepared this disclosure, method/source record, error ledger and unsigned contribution template | No student contribution or signature inferred |
+| L2 implementation, 2026-09-23 | Implement the approved paired RH/Rs model comparison, four panels and uncertainty plan | Generated L2 computation, validation tests, 200-repeat resampling, plotting, bilingual notes and checkpoint packaging; updated clean-output verifier to preserve tracked L1 archive | Source formulas checked against the supplied guide; actual tests/logs and clean-run report retained. Student review and attribution remain pending |
 
 Extent: AI generated the initial implementation and prose. This must not be described as independently student-authored code or analysis. Students must record their subsequent review, corrections, explanations and authored changes with their own commits.
 

@@ -1,0 +1,82 @@
+"""Tests for course-defined transport, pairing, fitting and model selection."""
+import csv
+import tempfile
+import unittest
+from pathlib import Path
+import numpy as np
+from l2 import load_pairs, normalize, transport, model_library, fit, choose_model, bootstrap
+
+
+class L2Tests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.library = model_library(300.)
+
+    def test_symmetry_neutrality(self):
+        for gap in (0., 1., 5., 8.):
+            rh, rs, n, p = transport(np.array([-.08, 0., .08]), 300., gap)
+            # Guide's 1-f subtraction loses relative precision for rare holes.
+            np.testing.assert_allclose(n, p[::-1], rtol=1e-10)
+            np.testing.assert_allclose(rh[[0]], -rh[[-1]], rtol=1e-12)
+            np.testing.assert_allclose(rs, rs[::-1], rtol=1e-12)
+            self.assertLess(abs((p[1]-n[1])/(p[1]+n[1])), 1e-12)
+
+    def test_normalization_sign_and_independent_scales(self):
+        x = np.array([[-2., 4.], [0., 8.], [1., 2.]])
+        actual, scale = normalize(x)
+        np.testing.assert_allclose(actual, [[-1,.5],[0,1],[.5,.25]])
+        np.testing.assert_equal(scale, [2,8])
+        np.testing.assert_allclose(actual, normalize(x*[17,3])[0])
+        for bad in [np.zeros((3,2)), np.array([[1.,-1.]]), np.array([[np.nan,1.]])]:
+            with self.assertRaises(ValueError):
+                normalize(bad)
+
+    def test_model_rule_boundary(self):
+        self.assertFalse(choose_model(1., .85, 2.))
+        self.assertTrue(choose_model(1., .849, 1.))
+        self.assertFalse(choose_model(1., .1, .75))
+        self.assertFalse(choose_model(0., 0., 2.))
+
+    def test_synthetic_curves_and_nearest_matching(self):
+        lib = self.library
+        for model_index in (0, 15):
+            curve = lib['xy'][model_index]
+            # Entire library curve includes its own normalization extrema.
+            result = fit(curve, lib)
+            self.assertEqual(result['selected'], model_index)
+            self.assertLess(result['residuals'][model_index], 1e-14)
+        select = np.array([280, 90, 220, 10])
+        from l2 import nearest
+        rms, assigned, distances = nearest(lib['xy'][0,select], lib['xy'][0])
+        self.assertLess(rms, 1e-14)
+        np.testing.assert_array_equal(assigned, select)
+
+    def test_pair_validation(self):
+        def rows():
+            return [[i,r,float(i+r),float(10+i+r)] for r in (1,2,3) for i in (0,1)]
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder)/'data.csv'
+            def write(items):
+                with path.open('w',newline='') as f:
+                    w=csv.writer(f); w.writerow(['measurement_index','repeat','R_H_raw','R_xx_raw']); w.writerows(items)
+            write(rows())
+            indices, pairs = load_pairs(path)
+            np.testing.assert_array_equal(indices,[0,1])
+            np.testing.assert_array_equal(pairs[0],[[1,11],[2,12],[3,13]])
+            for bad in (rows()[:-1], rows()+[rows()[0]], [[0,1,float('nan'),2]]+rows()[1:]):
+                write(bad)
+                with self.assertRaises(ValueError): load_pairs(path)
+
+    def test_bootstrap_pairing_and_reproducibility(self):
+        curve = self.library['xy'][0,::40]
+        pairs = np.stack([curve*[1.01,1.02],curve,curve*[.99,.98]],axis=1)
+        a = bootstrap(pairs,self.library,seed=602805,repeats=3)
+        b = bootstrap(pairs,self.library,seed=602805,repeats=3)
+        np.testing.assert_array_equal(a['draws'],b['draws'])
+        np.testing.assert_array_equal(a['trajectories'],b['trajectories'])
+        expected = pairs[np.arange(len(pairs)),a['draws'][0]]
+        np.testing.assert_array_equal(a['sampled_pairs'][0], expected)
+
+
+if __name__ == '__main__':
+    unittest.main()

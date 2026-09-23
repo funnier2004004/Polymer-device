@@ -1,6 +1,6 @@
 # Contribution statement — awaiting student review
 
-Group: G05. No member names, IDs or contributions were provided. Do not treat this page as a signed statement.
+Group: G05. No member names, IDs or contributions were provided. Do not treat this page as a signed statement. L2 computation and explanation were initially generated with AI assistance on 2026-09-23; student L2 contributions remain pending. The table's L2 entries below refer to student work, not pipeline implementation status.
 
 | Member name / ID | L1 meaningful contribution and evidence | L2 | L3 | Report / code / checks | Signature / date |
 |---|---|---|---|---|---|

@@ -249,6 +249,13 @@ L2 and L3 fields are intentionally unfilled in this L1 checkpoint.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data-dir', type=Path, default=ROOT/'data'/'regular_G05')
-    parser.add_argument('--phase', choices=['L1'], required=True)
-    parser.add_argument('--out', type=Path, default=ROOT/'outputs'/'L1')
-    run(parser.parse_args())
+    parser.add_argument('--phase', choices=['L1','L2'], required=True)
+    parser.add_argument('--out', type=Path, default=None)
+    args = parser.parse_args()
+    if args.out is None:
+        args.out = ROOT/'outputs'/args.phase
+    if args.phase == 'L1':
+        run(args)
+    else:
+        from l2_delivery import run_l2
+        run_l2(args)
