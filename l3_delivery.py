@@ -76,9 +76,9 @@ def figures(out,a,repeats,group):
     ax.errorbar(x,a['mean'],yerr=a['noise']['sigma'],fmt='.',ms=2,capsize=1,
                 color='#255E78',elinewidth=.7,label='Mean +/- 1 sample SD')
     ax.set(xlabel='Channel index (0-based)',ylabel='Reading (supplied scale)',title='A | Three repeated scans')
-    ax.legend(fontsize=8,loc='best')
+    ax.legend(fontsize=8,loc='lower center',bbox_to_anchor=(.5,1.11),ncol=2)
     ax=axes[1]; ax.hist(a['noise']['maxima'],bins=25,color='#A8C7D4',edgecolor='white')
-    ax.axvline(a['noise']['delta95'],color='#B25827',ls='--',label=f"95th percentile = {a['noise']['delta95']:.5f}")
+    ax.axvline(a['noise']['delta95'],color='#B25827',ls='--',label=f"95th percentile = {a['noise']['delta95']:.4g}")
     ax.set(xlabel='Maximum absolute noise-map amplitude (fraction)',ylabel='Simulation count',title='B | 500 noise-only reconstructions')
     ax.legend(fontsize=8)
     fig.supxlabel('SD: ddof=1 across 3 scans; simulation uses SD without division by sqrt(3). Not pixelwise confidence bars.',fontsize=9)
@@ -88,10 +88,11 @@ def figures(out,a,repeats,group):
 def run_l3(args):
     data=args.data_dir.resolve(); out=args.out.resolve()
     # Reject before creating files, including accidental overwrites of prior-phase archives.
-    protected=[ROOT,ROOT/'outputs'/'L1',ROOT/'outputs'/'L2',ROOT/'outputs'/'archive']
-    if (out==ROOT or out.is_relative_to(data) or data.is_relative_to(out)
-            or out.is_relative_to(ROOT/'data')
-            or any(out==p or out.is_relative_to(p) or p.is_relative_to(out) for p in protected[1:])):
+    listing=subprocess.check_output(['git','-C',str(ROOT),'worktree','list','--porcelain','-z'])
+    roots=[Path(item[9:].decode('utf-8')).resolve() for item in listing.split(b'\0') if item.startswith(b'worktree ')]
+    protected=[root/relative for root in roots for relative in ['data','outputs/L1','outputs/L2','outputs/archive']]
+    if (out in roots or out.is_relative_to(data) or data.is_relative_to(out)
+            or any(out==p or out.is_relative_to(p) or p.is_relative_to(out) for p in protected)):
         raise ValueError('L3 output must be separate from data and existing phase archives')
     threshold=getattr(args,'l3_threshold',None)
     decision(0,0,threshold)
@@ -142,6 +143,8 @@ def run_l3(args):
                  mean_map=float(m.mean()),features=a['features'],noise_seed=SEED,noise_draws=NOISE_DRAWS,
                  sigma_min=float(noise['sigma'].min()),sigma_median=float(np.median(noise['sigma'])),sigma_max=float(noise['sigma'].max()),
                  chosen_residual=a['scan'][2]['residual'],chosen_roughness=a['scan'][2]['roughness'],
+                 expected_mean_noise_norm=float(np.linalg.norm(noise['sigma'])/np.sqrt(3)),
+                 residual_to_expected_mean_noise=float(a['scan'][2]['residual']/(np.linalg.norm(noise['sigma'])/np.sqrt(3))) if np.linalg.norm(noise['sigma'])>0 else None,
                  map_change_norms=[float(np.linalg.norm(r['map']-m)) for r in a['scan']],
                  submission_ready=a['decision']['pass'] is not None,
                  warning='Missing threshold or borderline decision is not a final Boolean submission.' if a['decision']['pass'] is None else '')
@@ -176,6 +179,13 @@ Extrema (not an exhaustive list of independent defects):
 Residual norm={summary['chosen_residual']:.9g}; roughness={summary['chosen_roughness']:.9g}.
 Map changes across the eta scan (Euclidean norm relative to reference):
 {json.dumps(summary['map_change_norms'])}
+Expected mean-data noise norm under independent repeats is
+{summary['expected_mean_noise_norm']:.9g}; reference residual/noise ratio is
+{summary['residual_to_expected_mean_noise']}. This diagnostic alone uses SD/sqrt(3)
+for the averaged data; the prescribed detection-limit simulation does not.
+For G05, extrema lie on the boundary of a broad spatial gradient, not proof
+of two isolated defects. A large residual relative to repeat noise indicates
+regularisation/model discrepancy beyond the reported noise-only detection limit.
 Report sensitivity as a limitation; an attractive smooth map is not proof
 that the true pattern or amplitudes have been recovered without bias.
 
@@ -223,6 +233,7 @@ Pipeline commit: {commit}
 
 - 本图是相对于零均值的非均匀分布，无法恢复晶圆的整体偏移量。
 - 主结果使用老师默认 eta={inv.eta:.9g}。五档参数的差异保存在敏感性表和地图数组，不根据图好看与否挑选参数。
+- 平均数据的预期噪声范数约 {summary['expected_mean_noise_norm']:.6g}，主结果残差与此噪声尺度的比值为 {summary['residual_to_expected_mean_noise']}。这项诊断使用均值的 SD/√3，但检测限仍严格使用老师规定的原始 SD。
 - 最大绝对幅度：{a['amplitude']:.6g}（给定模型的 fraction 尺度）。
 - 主要正负极值：{json.dumps(a['features'],ensure_ascii=False)}。坐标单位为探针间距，不是毫米；它们不代表已经识别全部真实缺陷。
 - 两个注入位置的等效 FWHM：{[p['response'][2] for p in a['psfs']]}，取较大值 **{a['resolution']:.5f} 个探针间距**。
@@ -230,6 +241,7 @@ Pipeline commit: {commit}
 - 500 次模拟的 95% 噪声检测限：**{noise['delta95']:.7f}**。随机种子 {SEED}，三次重复的样本标准差 ddof=1，不额外除以根号3。
 
 原始扫描图的误差棒表示重复数据的标准差；95% 检测限表示整张噪声地图最大绝对值的分位数，不能解释为每个像素的置信区间。它也不包含平滑带来的偏差。独立高斯噪声及仅三次重复是分析限制。
+G05 的地图主要呈平滑空间梯度，最大正负值落在边界，不应直接说成两个孤立缺陷。残差大于重复噪声时，必须承认正则化或模型失配造成的额外误差；极小的噪声检测限不意味着地图同样精确。
 
 判定：{a['decision']['confidence']}
 收到老师阈值后才能比较幅度加减检测限与阈值，得到明确通过、明确不通过或临界。当前不能编造阈值，也不能将待定当成不合格。

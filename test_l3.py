@@ -114,5 +114,45 @@ class L3Tests(unittest.TestCase):
         self.assertIn('--l3-threshold',proc.stdout)
         self.assertIn('L3',proc.stdout)
 
+    def test_noise_legend_does_not_cover_measurement_axes(self):
+        import tempfile
+        from unittest.mock import patch
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
+        from l3_delivery import figures
+        analysis=self.mod.analyse(self.A,self.d)
+        try:
+            # Suppress cleanup only, so real rendered axes remain available for geometry QA.
+            with tempfile.TemporaryDirectory() as tmp, patch.object(plt,'close'):
+                figures(Path(tmp),analysis,self.d,'G05')
+                fig=plt.figure(plt.get_fignums()[-1]); fig.canvas.draw()
+                ax=fig.axes[0]
+                legend=ax.get_legend().get_window_extent(fig.canvas.get_renderer())
+                self.assertFalse(legend.overlaps(ax.get_window_extent()),'Legend covers raw-data plotting area')
+        finally:
+            plt.close('all')
+
+    def test_other_worktree_archives_are_protected_before_generation(self):
+        from argparse import Namespace
+        from unittest.mock import patch
+        import subprocess
+        from l3_delivery import run_l3
+        root=Path(__file__).parent
+        common=Path(subprocess.check_output(['git','rev-parse','--git-common-dir'],text=True,encoding='utf-8').strip())
+        if not common.is_absolute(): common=(root/common).resolve()
+        original=common.parent
+        for relative in ['outputs/L1','outputs/L2','outputs/archive/child']:
+            with self.subTest(relative=relative), patch('l3_delivery.git_info',side_effect=AssertionError('Generation reached before protection')):
+                with self.assertRaisesRegex(ValueError,'separate'):
+                    run_l3(Namespace(data_dir=root/'data/regular_G05',out=original/relative,l3_threshold=None))
+
+    def test_clean_audit_reuses_recorded_threshold(self):
+        import verify_l3_reproduction as audit
+        self.assertTrue(hasattr(audit,'clean_run_command'),'Threshold-aware clean audit is missing')
+        cmd=audit.clean_run_command(.05)
+        self.assertEqual(cmd[cmd.index('--l3-threshold')+1],'0.05')
+        self.assertNotIn('--l3-threshold',audit.clean_run_command(None))
+
 
 if __name__=='__main__': unittest.main()

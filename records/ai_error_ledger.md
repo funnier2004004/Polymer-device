@@ -1,5 +1,34 @@
 # AI error ledger
 
+## L3 observed error, 2026-09-24
+
+E07: The initial noise diagnostic used an automatic in-axis legend. Visual inspection
+showed its text overlapping the raw scan lines. A rendered-geometry regression test
+then failed because the legend bounding box overlapped the measurement axes.
+Cause: automatic placement cannot find a blank region in this dense trace. Moved the
+legend above the axes and retained the geometry test; this is a figure-layout error,
+not a fabricated physics error. Also changed the detection-limit legend to significant
+digits so a value near 2.698e-5 is not rounded to an uninformative 0.00003.
+
+E08: Initial L3 output guard protected only the current worktree's archive paths,
+not those in the original sibling checkout. Independent review used a read-only
+probe (stopped before writing), and a regression test reproduced three unprotected
+archive targets. The guard now resolves all registered Git worktree roots and
+rejects overlapping data/L1/L2/archive destinations. No archive was overwritten.
+Category: filesystem safety bug, not a physics error.
+
+E09: Initial clean-clone audit omitted an optional supplied L3 threshold, which
+would compare a thresholded delivery against a pending result. Review detected it;
+a test failed before a threshold-aware command builder was added. The audit now
+reuses the delivered summary's threshold. Current G05 still has no threshold.
+Category: reproducibility-interface bug, not a physics error.
+
+E10: The new archive-guard test initially decoded Git's UTF-8 Chinese directory
+using the Windows default encoding. It constructed a different, non-existing path
+and still failed after the production guard was fixed. Inspection of Git's raw
+bytes identified the encoding mismatch; explicit UTF-8 decoding fixes the test.
+Production worktree parsing already decoded UTF-8. Category: test/path encoding error.
+
 Record only observed errors. Do not create deliberate mistakes to meet a mark target.
 
 | ID | Actual AI action or claim | Evidence detecting it | Correction | Category / status |

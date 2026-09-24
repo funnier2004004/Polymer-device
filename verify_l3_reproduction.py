@@ -13,6 +13,12 @@ from reproduce import ROOT,git_info,write_json
 def digest(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
+def clean_run_command(threshold):
+    cmd=[sys.executable,'reproduce.py','--data-dir','data/regular_G05','--phase','L3','--out','qa/fresh_output']
+    if threshold is not None: cmd += ['--l3-threshold',str(threshold)]
+    return cmd
+
+
 def main(archive_root,delivered):
     commit=git_info()
     baseline=json.loads((ROOT/'records/L3_prior_archive_hashes.json').read_text(encoding='utf-8'))
@@ -22,8 +28,9 @@ def main(archive_root,delivered):
     qa=ROOT/'qa'; qa.mkdir(exist_ok=True)
     audit=Path(tempfile.mkdtemp(prefix=f'L3_{commit[:12]}_',dir=qa)); clone=audit/'clean_checkout'
     subprocess.run(['git','clone','--no-hardlinks',str(ROOT),str(clone)],check=True)
+    threshold=json.loads((delivered/'summary.json').read_text(encoding='utf-8'))['threshold']
     for label,cwd,cmd in [('clean_tests',clone,[sys.executable,'-m','unittest','-v']),
-                         ('clean_run',clone,[sys.executable,'reproduce.py','--data-dir','data/regular_G05','--phase','L3','--out','qa/fresh_output'])]:
+                         ('clean_run',clone,clean_run_command(threshold))]:
         proc=subprocess.run(cmd,cwd=cwd,capture_output=True,text=True,encoding='utf-8',errors='replace')
         (audit/(label+'.txt')).write_text(proc.stdout+proc.stderr,encoding='utf-8')
         if proc.returncode: raise RuntimeError(f'{label} failed; inspect {audit}')
