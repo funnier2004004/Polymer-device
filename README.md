@@ -1,6 +1,16 @@
 # G05 Polymer Devices coursework
 
-本项目包含 QXU6028 2026–27 的 L1 和 L2，保留 G05 原始数据、计算代码和检查证据。L3 尚未实现，当前包不能用于包含全部三阶段的 blind test。
+本项目包含 QXU6028 2026–27 的 L1、L2 和 L3 分析，保留 G05 原始数据、计算代码和检查证据。L3 未收到课堂阈值时判定待定；尚未进行真实 blind test 或最终提交。
+
+## L3 运行
+
+`python reproduce.py --data-dir data/regular_G05 --phase L3`
+
+默认输出至 `outputs/L3`，内含地图、方法与噪声图（PNG/SVG）、数值证据、中文说明和 checkpoint ZIP。L1/L2 重新计算在子目录 `prerequisites_L2`，不覆盖原归档。缺少阈值时 `pass=null`，包内 STATUS 明确标注未完成判定，不应作为完整最终提交。收到真实课堂阈值后添加 `--l3-threshold VALUE`；临界时同样不强行填 Boolean。
+
+独立开发工作区使用原项目的 Python 环境或按 requirements.txt 安装。复现审计：
+`python verify_l3_reproduction.py --archive-root ORIGINAL_COURSEWORK_DIRECTORY`
+该命令比较干净克隆的全部确定性输出，并核对 63 个既有归档文件哈希。L3 的方法、索引约定和限制见 `records/L3_implementation.md` 及输出说明。
 
 ## 运行
 
@@ -16,7 +26,7 @@ python reproduce.py --data-dir data/regular_G05 --phase L1 --out qa/L1_recheck
 
 本机已配置的解释器是 `.venv/Scripts/python.exe`。此本机环境不应复制给其他成员；他们按 requirements.txt 安装即可。项目依赖为 NumPy 和 Matplotlib，CSV/JSON 使用 Python 标准库。
 
-`--data-dir` 接受同结构的数据目录，`--out` 可指定独立输出目录。更换数据后会重新校验 manifest；支持 L1/L2，尚不支持 L3。复核旧 L1 时应加 `--out qa/L1_recheck`，避免原位覆盖。
+`--data-dir` 接受同结构的数据目录，`--out` 可指定独立输出目录。更换数据后会重新校验 manifest；支持 L1/L2/L3。复核旧阶段时应加独立 `--out`，避免原位覆盖。
 
 ## L2 运行及结果入口
 

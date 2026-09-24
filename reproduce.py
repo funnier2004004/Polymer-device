@@ -1,4 +1,4 @@
-"""One-command L1 evidence and checkpoint generation from untouched group data."""
+"""One-command L1/L2/L3 analysis from untouched group data."""
 import argparse
 import csv
 import hashlib
@@ -249,13 +249,18 @@ L2 and L3 fields are intentionally unfilled in this L1 checkpoint.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data-dir', type=Path, default=ROOT/'data'/'regular_G05')
-    parser.add_argument('--phase', choices=['L1','L2'], required=True)
+    parser.add_argument('--phase', choices=['L1','L2','L3'], required=True)
+    parser.add_argument('--l3-threshold', type=float, default=None,
+                        help='Positive classroom specification in map-fraction units; absent means pending')
     parser.add_argument('--out', type=Path, default=None)
     args = parser.parse_args()
     if args.out is None:
         args.out = ROOT/'outputs'/args.phase
     if args.phase == 'L1':
         run(args)
-    else:
+    elif args.phase == 'L2':
         from l2_delivery import run_l2
         run_l2(args)
+    else:
+        from l3_delivery import run_l3
+        run_l3(args)

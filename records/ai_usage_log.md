@@ -1,5 +1,19 @@
 # AI usage log
 
+## L3 implementation, 2026-09-24
+
+User approved the G05 L3 reconstruction/resolution/detection-limit plan. Codex generated
+the numerical solver, tests, scientific figures, source-data outputs, bilingual notes,
+checkpoint packaging and clean-clone/archive verification. Source authority is the supplied
+Practical Methods Guide pp. 10-13. Uses default eta0, five sensitivity multipliers,
+two fixed point-response positions and 500 noise draws with seed 60280503. No hidden
+truth, unpublished papers or external scholarly sources were accessed. The missing
+classroom threshold is explicitly pending, not invented. Prior L1/L2 outputs are protected.
+AI also checked the teacher's written error-bar/uncertainty requirements in the preceding
+conversation. All code and initial prose are AI-assisted; student review and contributions
+remain unverified. Final independent code review and reproducibility evidence are recorded
+in the L3 implementation ledger and generated audit, not claimed as student sign-off.
+
 L2 display extension (2026-09-23): user requested RH(EF) and Rs(EF) comparisons in addition to the existing joint-fit figures. Codex added selected-model curves, measured means at the shared inferred EF, scaled sample-SD bars, single-channel PNG/SVG exports, a six-panel summary and source CSV. No independent channel fit, model-selection change or new physics claim was introduced. Prior L2 output was archived before regeneration. Tests and archived-output comparisons verify unchanged inference; students' review remains pending.
 
 Tool: OpenAI Codex desktop. The session began with a prior model and later switched to GPT-6 as identified in the runtime context. The exact prior model and a more specific current model identifier were not supplied; do not infer them.
