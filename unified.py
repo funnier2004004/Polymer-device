@@ -59,7 +59,7 @@ def run_all(args):
     (out/'REVISION_NOTE.txt').write_text(
         'L1: carrier-density plot added; original numbers unchanged.\n'
         'L2: thermal smoothing and device interpretation expanded; original inference unchanged.\n'
-        'L3: actual classroom threshold 0.030 applied; default eta0 retained.\n'
+        f'L3: threshold {config["l3_threshold"]} applied ({config["threshold_source"]}); default eta0 retained.\n'
         'Eta sensitivity uses candidate-specific noise propagation. Low noise limits exclude smoothing bias.\n'
         'L1/L2/L3 links are conceptual unless an explicit numerical dependency is implemented.\n'
         'Historical packages and real blind submission records remain separate.\n',encoding='utf-8')

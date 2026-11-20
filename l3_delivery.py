@@ -90,7 +90,7 @@ def run_l3(args):
     # Reject before creating files, including accidental overwrites of prior-phase archives.
     listing=subprocess.check_output(['git','-C',str(ROOT),'worktree','list','--porcelain','-z'])
     roots=[Path(item[9:].decode('utf-8')).resolve() for item in listing.split(b'\0') if item.startswith(b'worktree ')]
-    protected=[root/relative for root in roots for relative in ['data','outputs/L1','outputs/L2','outputs/archive']]
+    protected=[root/relative for root in roots for relative in ['data','outputs/L1','outputs/L2','outputs/L3','outputs/archive']]
     if (out in roots or out.is_relative_to(data) or data.is_relative_to(out)
             or any(out==p or out.is_relative_to(p) or p.is_relative_to(out) for p in protected)):
         raise ValueError('L3 output must be separate from data and existing phase archives')

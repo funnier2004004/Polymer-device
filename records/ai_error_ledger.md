@@ -9,6 +9,12 @@ Corrected committed configuration to 0.030 and regenerated the decision with the
 existing guide confidence rule. Original pending packages remain historical evidence.
 This is a missed-source/decision error; it is not a fabricated formula error.
 
+E12 (2026-11-20): Review caught three revision interface issues before delivery:
+the audit report included itself on a second run; the revision note hardcoded .030
+even for threshold overrides; historical outputs/L3 was not yet guarded. Corrected
+the audit exclusion, parameterized note, and protected-path list. The new archive
+test reproduced the guard failure before correction; no historical file was changed.
+
 ## L3 observed error, 2026-09-24
 
 E07: The initial noise diagnostic used an automatic in-axis legend. Visual inspection

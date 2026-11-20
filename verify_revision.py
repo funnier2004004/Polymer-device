@@ -19,11 +19,15 @@ def main(delivered):
     qa=ROOT/'qa'; qa.mkdir(exist_ok=True)
     audit=Path(tempfile.mkdtemp(prefix='revision_',dir=qa)); clone=audit/'clean'
     subprocess.run(['git','clone','--no-hardlinks',str(ROOT),str(clone)],check=True)
-    for label,cmd in [('tests',[sys.executable,'-m','unittest','-q']),('run',[sys.executable,'reproduce.py','--phase','all','--out','qa/fresh'])]:
+    config=json.loads((delivered/'configuration.json').read_text(encoding='utf-8'))
+    command=[sys.executable,'reproduce.py','--phase','all','--out','qa/fresh']
+    if config['threshold_source']=='Explicit --l3-threshold override':
+        command+=['--l3-threshold',str(config['l3_threshold'])]
+    for label,cmd in [('tests',[sys.executable,'-m','unittest','-q']),('run',command)]:
         p=subprocess.run(cmd,cwd=clone,capture_output=True,text=True,encoding='utf-8',errors='replace')
         (audit/(label+'.txt')).write_text(p.stdout+p.stderr,encoding='utf-8')
         if p.returncode: raise ValueError(f'{label} failed: {audit}')
-    def files(root): return {p.relative_to(root).as_posix():p for p in root.rglob('*') if p.is_file() and p.name not in ['environment.json','run_log.txt']}
+    def files(root): return {p.relative_to(root).as_posix():p for p in root.rglob('*') if p.is_file() and p.name not in ['environment.json','run_log.txt','verification_report.json']}
     a,b=files(delivered),files(clone/'qa/fresh')
     comparisons={k:sha(a[k])==sha(b[k]) for k in a.keys()&b.keys()}
     new=json.loads((delivered/'results.json').read_text())
@@ -41,4 +45,4 @@ def main(delivered):
     if not report['all_passed']: raise SystemExit('Verification failed')
 
 
-if __name__=='__main__': main(ROOT/'outputs/revision_2026_11_20/all')
+if __name__=='__main__': main(Path(sys.argv[1]).resolve() if len(sys.argv)>1 else ROOT/'outputs/revision_2026_11_20/all_final')

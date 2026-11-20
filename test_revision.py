@@ -41,5 +41,13 @@ class RevisionTests(unittest.TestCase):
         self.assertEqual(rows[2]['decision'],'clear_fail')
         self.assertEqual(rows[2]['map_change_norm'],0)
 
+    def test_historical_l3_output_rejected(self):
+        from l3_delivery import run_l3
+        from reproduce import ROOT
+        from argparse import Namespace
+        with patch('l3_delivery.git_info',side_effect=AssertionError('Unsafe output reached generation')):
+            with self.assertRaises(ValueError):
+                run_l3(Namespace(data_dir=ROOT/'data/regular_G05',out=ROOT/'outputs/L3',l3_threshold=.03))
+
 
 if __name__=='__main__': unittest.main()
