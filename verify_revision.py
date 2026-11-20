@@ -45,4 +45,4 @@ def main(delivered):
     if not report['all_passed']: raise SystemExit('Verification failed')
 
 
-if __name__=='__main__': main(Path(sys.argv[1]).resolve() if len(sys.argv)>1 else ROOT/'outputs/revision_2026_11_20/all_final')
+if __name__=='__main__': main(Path(sys.argv[1]).resolve() if len(sys.argv)>1 else ROOT/'outputs/revision_2026_11_20/delivery')

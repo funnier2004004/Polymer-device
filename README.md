@@ -7,7 +7,7 @@
 课程配置保存真实阈值 0.030，来源为 session slides 第15页；可用 `--l3-threshold` 显式覆盖。
 旧 L3 “阈值缺失”的输出保留为历史记录，新结果以修订目录为准。
 `python verify_revision.py` 检查干净克隆、历史文件哈希和数值回归。
-本轮最终交付位于 `outputs/revision_2026_11_20/all_final`，此前 `all` 为首次修订检查记录。
+本轮最终交付位于 `outputs/revision_2026_11_20/delivery`，此前 `all` 和 `all_final` 为修订检查记录。
 复现最终交付可指定新的目录：`python reproduce.py --phase all --out qa/new_revision`。
 盲测接口为 `--phase blind --data-dir PATH --out NEW_PATH`，只接受 G05/blind，
 自动输出三个规定文件。本轮仅合成测试，未运行真实盲测、未上传。
