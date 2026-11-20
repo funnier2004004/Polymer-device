@@ -274,6 +274,12 @@ must not be read as greater resolution than the candidate grid. There are
 {' '.join(warnings)}
 
 Device implication. {device}
+Thermal smoothing spreads occupation over energies of order kBT. A resolved
+gap of a few kBT can support considering reduced thermal off populations,
+but this analysis neither calculates a device on/off ratio nor establishes
+contact quality or gate control. The prescribed candidate grid and repeat
+resampling quantify different limits: grid spacing constrains numerical
+resolution, while resampling describes stability to the observed scatter.
 
 Figures. A/B: three raw repeated series, means and +/-1 sample SD; Hall zero
 line and mean sign-change bracket. C: separately normalized paired means,

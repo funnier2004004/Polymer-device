@@ -108,6 +108,8 @@ def run_l3(args):
     repeats=np.loadtxt(data/'L3_d.csv',delimiter=','); validate(A,repeats)
     print('L3: input checks passed; reconstructing and estimating resolution/noise.',flush=True)
     a=analyse(A,repeats,threshold)
+    from unified import eta_diagnostics
+    diagnostics=eta_diagnostics(a,repeats,threshold)
     out.mkdir(parents=True,exist_ok=True)
     # Reuse the existing, unchanged L2 workflow in an isolated child output directory.
     from l2_delivery import run_l2
@@ -136,7 +138,7 @@ def run_l3(args):
     check('top_schema_keys',len(set(result)^set(template)),0)
     check('finite_positive_resolution',int(not (np.isfinite(a['resolution']) and a['resolution']>0)),0)
     summary=dict(group=meta['group'],eta=inv.eta,eta0=inv.eta0,eta_multiplier=1,
-                 threshold=threshold,decision=a['decision'],amplitude_fraction=a['amplitude'],
+                 threshold=threshold,threshold_source=getattr(args,'threshold_source','Explicit caller parameter'),decision=a['decision'],amplitude_fraction=a['amplitude'],
                  detection_limit_fraction=noise['delta95'],resolution_probe_pitch=a['resolution'],
                  point_resolutions=[dict(row=p['position'][0],column=p['position'][1],
                                          equivalent_FWHM_probe_pitch=p['response'][2]) for p in a['psfs']],
@@ -152,7 +154,7 @@ def run_l3(args):
     write_json(out/'checks.json',checks); write_json(out/'input_integrity.json',integrity)
     write_csv(out/'L3_map.csv',[dict(row=i//10,column=i%10,x_probe_pitch=float(COORD[i%10]),y_probe_pitch=float(COORD[i//10]),amplitude_fraction=float(v)) for i,v in enumerate(m)])
     write_csv(out/'L3_channels.csv',[dict(channel=j,repeat_1=float(repeats[0,j]),repeat_2=float(repeats[1,j]),repeat_3=float(repeats[2,j]),mean=float(a['mean'][j]),sample_SD=float(noise['sigma'][j]),predicted=float((A@m)[j]),residual=float((A@m-a['mean'])[j])) for j in range(128)])
-    write_csv(out/'L3_eta_scan.csv',[{k:v for k,v in r.items() if k!='map'} for r in a['scan']])
+    write_csv(out/'L3_eta_scan.csv',diagnostics)
     write_csv(out/'L3_singular_values.csv',[dict(index=j+1,singular_value=float(v)) for j,v in enumerate(a['singular_values'])])
     write_csv(out/'L3_noise_maxima.csv',[dict(draw=j,max_abs_fraction=float(v)) for j,v in enumerate(noise['maxima'])])
     for name,array in [('L3_noise_vectors',noise['noise']),('L3_noise_maps',noise['maps']),
@@ -210,6 +212,7 @@ Three repeats give limited noise information; channel correlations and
 non-Gaussian errors are not represented by this prescribed simulation.
 
 Decision. {a['decision']['confidence']}
+Threshold source: {summary['threshold_source']}.
 For classroom threshold t use a+delta95<t for clear pass, a-delta95>t for
 clear fail, otherwise borderline. Missing threshold or borderline leaves
 pass=null, explicitly not the completed final-submission Boolean.
@@ -229,7 +232,7 @@ Pipeline commit: {commit}
     (out/'brief_note.txt').write_text(note,encoding='utf-8')
     zh=f'''# {meta['group']} L3 结果解读
 
-状态：**{a['decision']['status']}**。课堂阈值未提供时，计算完成不等于合格判定完成，不能作为完整最终提交。
+状态：**{a['decision']['status']}**。本次实际阈值为 {threshold}，来源：{summary['threshold_source']}。主结果使用指南默认正则化，判定不包含平滑偏差。
 
 - 本图是相对于零均值的非均匀分布，无法恢复晶圆的整体偏移量。
 - 主结果使用老师默认 eta={inv.eta:.9g}。五档参数的差异保存在敏感性表和地图数组，不根据图好看与否挑选参数。

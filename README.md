@@ -1,5 +1,15 @@
 # G05 Polymer Devices coursework
 
+## 2026-11-20 报告指南修订入口
+
+`python reproduce.py --phase all` 一次生成三个阶段全部报告图和汇总 JSON，默认在
+`outputs/revision_2026_11_20/all`。要求使用不存在的新输出目录，防止覆盖记录。
+课程配置保存真实阈值 0.030，来源为 session slides 第15页；可用 `--l3-threshold` 显式覆盖。
+旧 L3 “阈值缺失”的输出保留为历史记录，新结果以修订目录为准。
+`python verify_revision.py` 检查干净克隆、历史文件哈希和数值回归。
+盲测接口为 `--phase blind --data-dir PATH --out NEW_PATH`，只接受 G05/blind，
+自动输出三个规定文件。本轮仅合成测试，未运行真实盲测、未上传。
+
 本项目包含 QXU6028 2026–27 的 L1、L2 和 L3 分析，保留 G05 原始数据、计算代码和检查证据。L3 未收到课堂阈值时判定待定；尚未进行真实 blind test 或最终提交。
 
 ## L3 运行

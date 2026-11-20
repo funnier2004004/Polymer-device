@@ -1,5 +1,14 @@
 # AI error ledger
 
+## Report-guidance correction, 2026-11-20
+
+E11: Earlier material review concluded the L3 threshold was unavailable. The supplied
+session slides page 15 explicitly states PASS when max|m| <=0.030 (3.0% reference
+conductivity). Inspection during the new-material audit detected the omitted page.
+Corrected committed configuration to 0.030 and regenerated the decision with the
+existing guide confidence rule. Original pending packages remain historical evidence.
+This is a missed-source/decision error; it is not a fabricated formula error.
+
 ## L3 observed error, 2026-09-24
 
 E07: The initial noise diagnostic used an automatic in-axis legend. Visual inspection

@@ -1,5 +1,15 @@
 # AI usage log
 
+## Report-guidance revision, 2026-11-20
+
+Codex read newly supplied assessment/report guidance, compared the Methods Guide text,
+and found the actual threshold in session slides p15. Implemented the user-approved
+L1 density figure, L2 interpretation, threshold configuration, five-eta diagnostics,
+all-phase entrypoint, blind file export interface, tests and reproduction audit.
+No real blind-group numerical inputs were inspected or run; blind interface uses a
+synthetic metadata/output fixture. AI authored code and initial notes; student review
+and signed contribution remain pending. See E11 for the actual missed threshold source.
+
 ## L3 implementation, 2026-09-24
 
 User approved the G05 L3 reconstruction/resolution/detection-limit plan. Codex generated

@@ -87,6 +87,17 @@ def make_figure(out, sweep, dense, op, crossings, group):
     fig.savefig(out / 'L1_correction.png', dpi=220, metadata={'Software': 'G05 L1 pipeline'})
     fig.savefig(out / 'L1_correction.svg', metadata={'Date': None})
     plt.close(fig)
+    fig,ax=plt.subplots(figsize=(7.2,4.8),layout='constrained')
+    x=np.array([r['EF_eV'] for r in sweep])
+    ax.plot(x,[r['n_band_recomputed_cm2'] for r in sweep],'o-',color='#256781',label='Band-edge count nB')
+    ax.plot(x,[r['n_fermi_cm2'] for r in sweep],'s-',color='#B25827',label='Fermi-referenced count nF')
+    for key,color in [('n_band_op_cm2','#256781'),('n_fermi_op_cm2','#B25827')]:
+        ax.scatter(op['EF_op_eV'],op[key],marker='*',s=100,color=color,zorder=4)
+    ax.axvline(op['EF_op_eV'],ls=':',lw=.8,color='gray',label=f"Exact operating EF = {op['EF_op_eV']:.7f} eV")
+    ax.set(xlabel='Fermi level EF (eV)',ylabel='Carrier density (cm$^{-2}$)',title=f'{group} | L1 counting conventions at {op["T_K"]:g} K')
+    ax.legend(fontsize=8)
+    fig.savefig(out/'L1_counts.png',dpi=220,metadata={'Software':'G05 L1 pipeline'})
+    fig.savefig(out/'L1_counts.svg',metadata={'Date':None}); plt.close(fig)
 
 
 def run(args):
@@ -219,6 +230,9 @@ Pipeline commit: {commit}
 L2 and L3 fields are intentionally unfilled in this L1 checkpoint.
 '''
     (out/'brief_note.txt').write_text(note, encoding='utf-8')
+    with (out/'brief_note.txt').open('a',encoding='utf-8') as handle:
+        handle.write('\nAdditional density figure: nB and nF across the supplied sweep; stars mark exact operating counts. No experimental error bars are inferred for this deterministic model.\n')
+    (out/'L1_readme_zh.md').write_text(f'两种载流子浓度图及修正系数图使用相同有限温度模型。星号为精确工作点，不是最近采样行。C={factor:.9f}，修正后浓度 {nf:.9g} cm^-2，迁移率 {op["mobility_corrected_cm2_Vs"]:.9g} cm²/(V·s)。此模型曲线没有给定实验不确定性。\n',encoding='utf-8')
     (out/'commit_hash.txt').write_text(commit+'\n', encoding='ascii')
     import matplotlib
     environment = dict(run_utc=datetime.now(timezone.utc).isoformat(), python=sys.version, numpy=np.__version__, matplotlib=matplotlib.__version__,
@@ -232,7 +246,7 @@ L2 and L3 fields are intentionally unfilled in this L1 checkpoint.
         f'Input integrity: {len(integrity)} files passed',
         *[f'PASS {r["check"]}: observed={r["observed"]:.12g}; error={r["error"]:.4g}; tolerance={r["tolerance"]}' for r in checks],
         'L1 results: '+json.dumps(template['L1']), 'Completed successfully'])+'\n', encoding='utf-8')
-    files = ['results.json','L1_correction.png','L1_correction.svg','brief_note.txt','commit_hash.txt']
+    files = ['results.json','L1_correction.png','L1_correction.svg','L1_counts.png','L1_counts.svg','L1_readme_zh.md','brief_note.txt','commit_hash.txt']
     zip_path = out/f'{params["group"]}_L1_Checkpoint.zip'
     with zipfile.ZipFile(zip_path, 'w', compression=zipfile.ZIP_DEFLATED) as bundle:
         for name in files:
@@ -249,18 +263,28 @@ L2 and L3 fields are intentionally unfilled in this L1 checkpoint.
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data-dir', type=Path, default=ROOT/'data'/'regular_G05')
-    parser.add_argument('--phase', choices=['L1','L2','L3'], required=True)
+    parser.add_argument('--phase', choices=['L1','L2','L3','all','blind'], required=True)
     parser.add_argument('--l3-threshold', type=float, default=None,
-                        help='Positive classroom specification in map-fraction units; absent means pending')
+        help='Positive threshold override; otherwise use committed classroom configuration')
     parser.add_argument('--out', type=Path, default=None)
     args = parser.parse_args()
     if args.out is None:
-        args.out = ROOT/'outputs'/args.phase
+        args.out = ROOT/'outputs'/'revision_2026_11_20'/args.phase
+    from unified import configuration
+    config=configuration(args.l3_threshold)
+    args.l3_threshold=config['l3_threshold']
+    args.threshold_source=config['threshold_source']
     if args.phase == 'L1':
         run(args)
     elif args.phase == 'L2':
         from l2_delivery import run_l2
         run_l2(args)
-    else:
+    elif args.phase == 'L3':
         from l3_delivery import run_l3
         run_l3(args)
+    elif args.phase == 'all':
+        from unified import run_all
+        run_all(args)
+    else:
+        from unified import run_blind
+        run_blind(args)
