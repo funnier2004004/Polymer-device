@@ -1,0 +1,6 @@
+L1: carrier-density plot added; original numbers unchanged.
+L2: thermal smoothing and device interpretation expanded; original inference unchanged.
+L3: threshold 0.03 applied (Virtual Labs Session Slides 2026-27, page 15: 3.0% of reference conductivity); default eta0 retained.
+Eta sensitivity uses candidate-specific noise propagation. Low noise limits exclude smoothing bias.
+L1/L2/L3 links are conceptual unless an explicit numerical dependency is implemented.
+Historical packages and real blind submission records remain separate.

@@ -1,5 +1,14 @@
 # AI usage log
 
+## GitHub publication preparation, 2026-11-24
+
+User explicitly requested direct main-branch publication of the G05 L1/L2/L3 revision.
+Codex prepared the deliverable index, copied revised and historical checkpoint bytes,
+recorded payload SHA-256 values, checked clean-source reproduction and preserved the
+existing generating commits. Publication uses a new AI-assistance commit; no student
+authorship or QMplus submission is inferred. The user reports an actual earlier blind
+submission, whose exact files/receipt have not yet been authenticated in this work.
+
 ## Report-guidance revision, 2026-11-20
 
 Codex read newly supplied assessment/report guidance, compared the Methods Guide text,
