@@ -1,2 +1,8 @@
+* text=auto
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+data/** -text
+*.pdf -text
 # Published evidence must retain its original bytes and SHA-256 across platforms.
 deliverables/** -text
