@@ -1,5 +1,11 @@
 # AI error ledger
 
+E13 (2026-11-24): Publication smoke test reproduced all scientific values but failed
+the byte-hash check for copied text payloads. Git's automatic line-ending conversion
+changed CRLF logs/commit text on clean checkout. Added a scoped deliverables/** -text
+attribute and restaged the original bytes; reran the clean-clone hash/reproduction
+check before pushing. No physics or checkpoint ZIP content was changed.
+
 ## Report-guidance correction, 2026-11-20
 
 E11: Earlier material review concluded the L3 threshold was unavailable. The supplied
