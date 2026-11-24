@@ -1,5 +1,20 @@
 # G05 Polymer Devices coursework
 
+## 2026-11-25 G05 blind-run evidence / 本次盲测证据
+
+The actual G05 blind-data run and its required three files are archived in
+[deliverables/blind_2026_11_25](deliverables/blind_2026_11_25).
+The frozen generating commit remains **cb12dbde0158881df9bfe940302fbc20379016cb**;
+this later evidence-publication commit does not replace that hash.
+The run occurred on **25 November 2026, 01:18:17–01:18:26 China time**.
+See the archive README for the input-template filename adapter, exact provenance,
+reproduction instructions and checksums. No calculation code was changed.
+
+These are separate blind-data outputs: L1 C=3.65816264, L2 `cone` (Eg=0 under
+the prescribed selection rule), and L3 `clear_fail`. The regular-data report and
+its hard-gap result remain unchanged. A successful software run is not proof of
+agreement with hidden truth, a timed-window submission, or a QMplus receipt.
+
 ## Latest reviewed analysis / 最新分析交付
 
 The revised L1/L2/L3 checkpoints are in [deliverables/revised_2026_11_20](deliverables/revised_2026_11_20).
@@ -39,9 +54,9 @@ a QMplus submission receipt or a notification acknowledged by the lecturer.
 本轮最终交付位于 `outputs/revision_2026_11_20/delivery`，此前 `all` 和 `all_final` 为修订检查记录。
 复现最终交付可指定新的目录：`python reproduce.py --phase all --out qa/new_revision`。
 盲测接口为 `--phase blind --data-dir PATH --out NEW_PATH`，只接受 G05/blind，
-自动输出三个规定文件。本轮仅合成测试，未运行真实盲测、未上传。
+自动输出三个规定文件。2026-11-20 修订阶段仅做合成测试；2026-11-25 的实际 G05 盲测运行另见上方独立归档。未执行 QMplus 上传。
 
-本项目包含 QXU6028 2026–27 的 L1、L2 和 L3 分析，保留 G05 原始数据、计算代码和检查证据。当前配置已采用课堂阈值 0.030。本地开发流程未运行真实盲测；组员另行进行的实际课堂提交须用原文件和回执核实。
+本项目包含 QXU6028 2026–27 的 L1、L2 和 L3 分析，保留 G05 原始数据、计算代码和检查证据。当前配置已采用课堂阈值 0.030。2026-11-25 的本地盲测运行保留真实时间与版本；组员另行进行的课堂提交仍须用原文件和回执核实。
 
 ## L3 运行
 

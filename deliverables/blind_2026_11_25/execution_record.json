@@ -1,0 +1,41 @@
+{
+  "pipeline_commit": "cb12dbde0158881df9bfe940302fbc20379016cb",
+  "tests": {
+    "command": [
+      "D:\\\u684c\u9762\\polymer device\\G05_coursework\\.venv\\Scripts\\python.exe",
+      "-m",
+      "unittest",
+      "-v"
+    ],
+    "started_utc": "2026-11-24T17:18:11.831906+00:00",
+    "ended_utc": "2026-11-24T17:18:17.729643+00:00",
+    "exit_code": 0
+  },
+  "blind_run": {
+    "command": [
+      "D:\\\u684c\u9762\\polymer device\\G05_coursework\\.venv\\Scripts\\python.exe",
+      "-u",
+      "reproduce.py",
+      "--phase",
+      "blind",
+      "--data-dir",
+      "D:\\\u684c\u9762\\polymer device\\submission_build_2026_11_25\\inputs\\blind_G05",
+      "--out",
+      "D:\\\u684c\u9762\\polymer device\\submission_build_2026_11_25\\blind_run"
+    ],
+    "started_utc": "2026-11-24T17:18:17.730654+00:00",
+    "ended_utc": "2026-11-24T17:18:26.829538+00:00",
+    "exit_code": 0
+  },
+  "time_zone": "Asia/Shanghai (UTC+08:00)",
+  "started_china": "2026-11-25T01:18:17.730654+08:00",
+  "ended_china": "2026-11-25T01:18:26.829538+08:00",
+  "execution_environment_overrides": {
+    "OPENBLAS_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "no_algorithm_changes": true,
+  "no_upload": true,
+  "historical_QMplus_submission_not_established": true
+}

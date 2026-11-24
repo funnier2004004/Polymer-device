@@ -49,4 +49,25 @@ Extent: AI generated the initial implementation and prose. This must not be desc
 
 All calculations here used supplied local course materials. No external scholarly sources or unpublished manuscripts were retrieved. Commands and numerical evidence are preserved in the repository and generated outputs. This is a task-level prompt summary, not a claim to archive a verbatim complete chat transcript; retain the original conversation separately if needed.
 
+## G05 blind execution and evidence publication, 2026-11-25
+
+Tool: OpenAI Codex desktop. At the user's explicit request, Codex prepared only
+the teacher's G05 blind input, checked the nine manifest entries, cloned the
+unchanged cb12dbd pipeline and executed its original 31 tests and blind interface.
+The actual run was 01:18:17–01:18:26 China time on 25 November 2026. The original
+test output, terminal output, machine results and timestamps are retained.
+The input adapter was a byte-identical additional `results_template.json` copied
+from the supplied empty `blind_results.json`; no original input or manifest was
+changed. No algorithm, candidate grid, seed or regularisation setting changed.
+
+Codex also assembled the local material package, changed only the Member C date
+explicitly confirmed by the user in a report copy, and then prepared this separate
+Git archive and its reproduction instructions. The original scientific outputs
+and generating hashes are preserved. Current Git publication is evidence
+archiving, not a new calculation or a QMplus submission. No new student work,
+signature, independent human verification, historical submission time or score is
+inferred from these AI-executed steps. Report/record review remains the members'
+responsibility. The blind-data cone selection is separate from the regular-data
+hard-gap result; no hidden truth was accessed.
+
 The user selected G05 and authorized this work; this alone does not establish a graded student contribution. "AI verification" is not a student's signed review.

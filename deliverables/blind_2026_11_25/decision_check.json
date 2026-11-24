@@ -1,0 +1,14 @@
+{
+  "amplitude_fraction": 0.04092326394446115,
+  "delta95_fraction": 5.758664339956393e-06,
+  "threshold": 0.03,
+  "README_rule": "pass when max(abs(m)) <= 0.030",
+  "README_rule_pass": false,
+  "pipeline_noise_margin_pass": false,
+  "noise_margin_interval": [
+    0.04091750528012119,
+    0.04092902260880111
+  ],
+  "rules_agree": true,
+  "algorithm_or_JSON_modified": false
+}

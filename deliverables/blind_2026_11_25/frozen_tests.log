@@ -1,0 +1,41 @@
+Command: "D:\桌面\polymer device\G05_coursework\.venv\Scripts\python.exe" -m unittest -v
+Start UTC: 2026-11-24T17:18:11.831906+00:00
+test_closed_form_over_sweep (test_l1.PhysicsTests.test_closed_form_over_sweep) ... ok
+test_crossings_and_bracket_rejection (test_l1.PhysicsTests.test_crossings_and_bracket_rejection) ... ok
+test_integrity_rejects_corruption (test_l1.PhysicsTests.test_integrity_rejects_corruption) ... ok
+test_invalid_parameters (test_l1.PhysicsTests.test_invalid_parameters) ... ok
+test_published_gates (test_l1.PhysicsTests.test_published_gates) ... ok
+test_slope_cancellation_and_monotonicity (test_l1.PhysicsTests.test_slope_cancellation_and_monotonicity) ... ok
+test_units_and_fixed_resistivity (test_l1.PhysicsTests.test_units_and_fixed_resistivity) ... ok
+test_bootstrap_pairing_and_reproducibility (test_l2.L2Tests.test_bootstrap_pairing_and_reproducibility) ... ok
+test_cone_neutrality_absolute_population (test_l2.L2Tests.test_cone_neutrality_absolute_population) ... ok
+test_ef_display_uses_joint_fit_and_correct_sd (test_l2.L2Tests.test_ef_display_uses_joint_fit_and_correct_sd) ... ok
+test_model_rule_boundary (test_l2.L2Tests.test_model_rule_boundary) ... ok
+test_normalization_sign_and_independent_scales (test_l2.L2Tests.test_normalization_sign_and_independent_scales) ... ok
+test_pair_validation (test_l2.L2Tests.test_pair_validation) ... ok
+test_symmetry_neutrality (test_l2.L2Tests.test_symmetry_neutrality) ... ok
+test_synthetic_curves_and_nearest_matching (test_l2.L2Tests.test_synthetic_curves_and_nearest_matching) ... ok
+test_batch_matches_individual_and_preserves_rows (test_l3.L3Tests.test_batch_matches_individual_and_preserves_rows) ... ok
+test_clean_audit_reuses_recorded_threshold (test_l3.L3Tests.test_clean_audit_reuses_recorded_threshold) ... ok
+test_cli_accepts_l3_and_documents_threshold (test_l3.L3Tests.test_cli_accepts_l3_and_documents_threshold) ... ok
+test_delivery_preserves_prior_phases_and_template (test_l3.L3Tests.test_delivery_preserves_prior_phases_and_template) ... ok
+test_features_use_row_major_xy_and_sign (test_l3.L3Tests.test_features_use_row_major_xy_and_sign) ... ok
+test_gradient_has_only_neighbour_differences (test_l3.L3Tests.test_gradient_has_only_neighbour_differences) ... ok
+test_input_validation (test_l3.L3Tests.test_input_validation) ... ok
+test_noise_is_reproducible_and_uses_sample_sd (test_l3.L3Tests.test_noise_is_reproducible_and_uses_sample_sd) ... ok
+test_noise_legend_does_not_cover_measurement_axes (test_l3.L3Tests.test_noise_legend_does_not_cover_measurement_axes) ... ok
+test_other_worktree_archives_are_protected_before_generation (test_l3.L3Tests.test_other_worktree_archives_are_protected_before_generation) ... ok
+test_resolution_formula_and_synthetic_positions (test_l3.L3Tests.test_resolution_formula_and_synthetic_positions) ... ok
+test_solver_matches_guide_and_zero_mean (test_l3.L3Tests.test_solver_matches_guide_and_zero_mean) ... ok
+test_threshold_decisions_and_exact_boundaries (test_l3.L3Tests.test_threshold_decisions_and_exact_boundaries) ... ok
+test_blind_validation_and_three_outputs (test_revision.RevisionTests.test_blind_validation_and_three_outputs) ... ok
+test_eta_diagnostics_use_candidate_noise (test_revision.RevisionTests.test_eta_diagnostics_use_candidate_noise) ... ok
+test_historical_l3_output_rejected (test_revision.RevisionTests.test_historical_l3_output_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 5.564s
+
+OK
+
+End UTC: 2026-11-24T17:18:17.729643+00:00
+Exit code: 0

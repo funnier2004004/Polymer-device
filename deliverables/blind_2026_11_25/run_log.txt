@@ -1,0 +1,124 @@
+G05 BLIND RUN — actual current execution, not proof of an earlier QMplus submission
+Pipeline commit: cb12dbde0158881df9bfe940302fbc20379016cb
+Start (Asia/Shanghai): 2026-11-25T01:18:17.730654+08:00
+End (Asia/Shanghai): 2026-11-25T01:18:26.829538+08:00
+Frozen algorithms/configuration unchanged. No upload performed.
+Input adapter: original blind_results.json copied byte-for-byte as additional results_template.json.
+
+=== COMPLETE CAPTURED TERMINAL OUTPUT ===
+Command: "D:\桌面\polymer device\G05_coursework\.venv\Scripts\python.exe" -u reproduce.py --phase blind --data-dir "D:\桌面\polymer device\submission_build_2026_11_25\inputs\blind_G05" --out "D:\桌面\polymer device\submission_build_2026_11_25\blind_run"
+Start UTC: 2026-11-24T17:18:17.730654+00:00
+L3: input checks passed; reconstructing and estimating resolution/noise.
+L2: verified paired repeats and raw Hall sign change.
+L2: candidate curves fitted; running 200 paired bootstrap draws.
+{
+  "model": "cone",
+  "Eg_kT": 0.0,
+  "gap_interval": [
+    0.0,
+    0.0
+  ],
+  "checks": 24,
+  "checkpoint": "D:\\\u684c\u9762\\polymer device\\submission_build_2026_11_25\\blind_run\\L3\\prerequisites_L2\\G05_L2_Checkpoint.zip"
+}
+{
+  "group": "G05",
+  "eta": 0.0013309924629099211,
+  "eta0": 0.0013309924629099211,
+  "eta_multiplier": 1,
+  "threshold": 0.03,
+  "threshold_source": "Virtual Labs Session Slides 2026-27, page 15: 3.0% of reference conductivity",
+  "decision": {
+    "pass": false,
+    "status": "clear_fail",
+    "confidence": "clear_fail: a=0.0409232639445, delta95=5.75866433996e-06, threshold=0.03; guide noise-margin rule, not a posterior pass probability."
+  },
+  "amplitude_fraction": 0.04092326394446115,
+  "detection_limit_fraction": 5.758664339956393e-06,
+  "resolution_probe_pitch": 1.4442950156533256,
+  "point_resolutions": [
+    {
+      "row": 5,
+      "column": 5,
+      "equivalent_FWHM_probe_pitch": 1.4442950156533256
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "equivalent_FWHM_probe_pitch": 1.3034888535482598
+    }
+  ],
+  "mean_map": 6.938893903907229e-20,
+  "features": [
+    {
+      "sign": "positive",
+      "row": 0,
+      "column": 0,
+      "x_probe_pitch": -2.7,
+      "y_probe_pitch": -2.7,
+      "amplitude_fraction": 0.027160275346651695
+    },
+    {
+      "sign": "negative",
+      "row": 5,
+      "column": 7,
+      "x_probe_pitch": 1.5000000000000009,
+      "y_probe_pitch": 0.30000000000000027,
+      "amplitude_fraction": -0.04092326394446115
+    }
+  ],
+  "noise_seed": 60280503,
+  "noise_draws": 500,
+  "sigma_min": 2.4266154010601256e-08,
+  "sigma_median": 2.524150376793701e-07,
+  "sigma_max": 8.042414132562656e-07,
+  "chosen_residual": 0.00017159850631922962,
+  "chosen_roughness": 0.08048792401318582,
+  "expected_mean_noise_norm": 2.031895419520811e-06,
+  "residual_to_expected_mean_noise": 84.45243031243129,
+  "map_change_norms": [
+    0.0010157038479527258,
+    0.0008565885546416363,
+    0.0,
+    0.003442745090573905,
+    0.014881847893464459
+  ],
+  "submission_ready": true,
+  "warning": ""
+}
+{
+  "checks_passed": 51,
+  "L1": {
+    "correction_factor": 3.6581626417669826,
+    "n_fermi_op_cm2": 438286102689.1915,
+    "mobility_corrected_cm2_Vs": 26953.623785109638
+  },
+  "crossings": {
+    "2": 0.07276188988765542,
+    "4": 0.15734690713570865
+  },
+  "checkpoint": "D:\\\u684c\u9762\\polymer device\\submission_build_2026_11_25\\blind_run\\L1\\G05_L1_Checkpoint.zip"
+}
+
+End UTC: 2026-11-24T17:18:26.829538+00:00
+Exit code: 0
+
+=== ORIGINAL PIPELINE-GENERATED RUN LOG ===
+Phase L3; commit cb12dbde0158881df9bfe940302fbc20379016cb
+"D:\桌面\polymer device\G05_coursework\.venv\Scripts\python.exe" reproduce.py --phase blind --data-dir "D:\桌面\polymer device\submission_build_2026_11_25\inputs\blind_G05" --out "D:\桌面\polymer device\submission_build_2026_11_25\blind_run"
+PASS A_row_sum: 1.66533453694e-16 <= 1e-11
+PASS gradient_shape: 0 <= 0
+PASS gradient_constant_mode: 0 <= 1e-14
+PASS projector_idempotence: 1.11022302463e-15 <= 1e-12
+PASS map_zero_mean: 6.93889390391e-20 <= 1e-12
+PASS finite_map: 0 <= 0
+PASS map_length: 0 <= 0
+PASS zero_input: 0 <= 1e-14
+PASS batch_vs_single: 3.11284608116e-20 <= 1e-10
+PASS noise_maps_zero_mean: 8.47032947254e-23 <= 1e-12
+PASS detection_percentile: 0 <= 0
+PASS L3_schema_keys: 0 <= 0
+PASS top_schema_keys: 0 <= 0
+PASS finite_positive_resolution: 0 <= 0
+{"group": "G05", "eta": 0.0013309924629099211, "eta0": 0.0013309924629099211, "eta_multiplier": 1, "threshold": 0.03, "threshold_source": "Virtual Labs Session Slides 2026-27, page 15: 3.0% of reference conductivity", "decision": {"pass": false, "status": "clear_fail", "confidence": "clear_fail: a=0.0409232639445, delta95=5.75866433996e-06, threshold=0.03; guide noise-margin rule, not a posterior pass probability."}, "amplitude_fraction": 0.04092326394446115, "detection_limit_fraction": 5.758664339956393e-06, "resolution_probe_pitch": 1.4442950156533256, "point_resolutions": [{"row": 5, "column": 5, "equivalent_FWHM_probe_pitch": 1.4442950156533256}, {"row": 2, "column": 2, "equivalent_FWHM_probe_pitch": 1.3034888535482598}], "mean_map": 6.938893903907229e-20, "features": [{"sign": "positive", "row": 0, "column": 0, "x_probe_pitch": -2.7, "y_probe_pitch": -2.7, "amplitude_fraction": 0.027160275346651695}, {"sign": "negative", "row": 5, "column": 7, "x_probe_pitch": 1.5000000000000009, "y_probe_pitch": 0.30000000000000027, "amplitude_fraction": -0.04092326394446115}], "noise_seed": 60280503, "noise_draws": 500, "sigma_min": 2.4266154010601256e-08, "sigma_median": 2.524150376793701e-07, "sigma_max": 8.042414132562656e-07, "chosen_residual": 0.00017159850631922962, "chosen_roughness": 0.08048792401318582, "expected_mean_noise_norm": 2.031895419520811e-06, "residual_to_expected_mean_noise": 84.45243031243129, "map_change_norms": [0.0010157038479527258, 0.0008565885546416363, 0.0, 0.003442745090573905, 0.014881847893464459], "submission_ready": true, "warning": ""}
+Explicit blind interface run; no upload or QMplus timestamp implied.

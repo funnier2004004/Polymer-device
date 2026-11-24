@@ -1,0 +1,63 @@
+{
+  "group": "G05",
+  "dataset_set": "blind",
+  "archive_sha256": "e59e01e0daa2bccbf91fdfd8928530eb1d93c1452b5db171ea1b282b1e2479a1",
+  "integrity": [
+    {
+      "file": "L1_data.csv",
+      "bytes": 451,
+      "sha256": "f9bc0baaa2571e294fa703c5c3e4e370ebcce1b25c187e0dedf06a9ddb7025db",
+      "passed": true
+    },
+    {
+      "file": "L1_params.json",
+      "bytes": 442,
+      "sha256": "3368dfa32dd96646637eb3a7d5752eb9f08aca90e37e05c84f14a767c04df729",
+      "passed": true
+    },
+    {
+      "file": "L2_data.csv",
+      "bytes": 7228,
+      "sha256": "cea2b707b6914c943cdbd810ae518bd9972c2f522982fcc26f747deceb697232",
+      "passed": true
+    },
+    {
+      "file": "L2_meta.json",
+      "bytes": 342,
+      "sha256": "bab9878981bed9eebcb6834157c181372f1894f6f2dcb45a67f89ae39a78b84f",
+      "passed": true
+    },
+    {
+      "file": "L3_A.npy",
+      "bytes": 102528,
+      "sha256": "4783c2c21d21c9c24d82be9b05a264331a9123b113785be3849398d8ee4d0cd5",
+      "passed": true
+    },
+    {
+      "file": "L3_d.csv",
+      "bytes": 6589,
+      "sha256": "a597fdc43d99e6b1163a8b4f2379cca46c9eefab2c733286ac881ea8c32863b5",
+      "passed": true
+    },
+    {
+      "file": "L3_meta.json",
+      "bytes": 524,
+      "sha256": "f112cd0a667e055d33490a074385ae026ea734c1e7d5539429e5eda441112f48",
+      "passed": true
+    },
+    {
+      "file": "README_FIRST.txt",
+      "bytes": 623,
+      "sha256": "9df8af8a77b6697e1f75392ad79bb8d55ac48f202632cddb08882a074c7f6628",
+      "passed": true
+    },
+    {
+      "file": "blind_results.json",
+      "bytes": 530,
+      "sha256": "0f4ac44cd4757352ca37fb6fb96eb85265938ef0048ae06b0d309a84020e01fb",
+      "passed": true
+    }
+  ],
+  "adapter": "Original blind_results.json copied byte-for-byte to additional results_template.json for existing pipeline; original manifest and all supplied files unchanged.",
+  "added_template_sha256": "0f4ac44cd4757352ca37fb6fb96eb85265938ef0048ae06b0d309a84020e01fb"
+}
